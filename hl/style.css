@@ -1,0 +1,104 @@
+/* Generics */
+
+.DlHighlight {
+    font: 8pt Bitstream Vera Sans Mono, monospace;
+    color: #61B984;
+    text-shadow: 0px 0px 8px #1F4946;
+
+    background-color: rgba(103, 214, 192, 0.07);
+    border-left: 1px solid rgba(50, 156, 131, 0.38);
+    box-shadow: -3px 0px 8px -4px rgba(42, 160, 66, 0.32);
+    margin-left: -20px;
+    padding-left: 18px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    line-height : 12pt;
+
+
+}
+
+.DlHighlight pre { margin: 0; padding: 0; }
+
+.DlHighlight .keyword {
+    color: #65F089;
+    text-shadow: 0px 0px 6px #67A79F;
+}
+
+.DlHighlight .builtin {
+color: #56d677;
+text-shadow: 0px 0px 6px #458F89;
+ }
+
+.DlHighlight .string {
+    font-style: italic;
+    color : #86B39E;
+}
+
+.DlHighlight .string .before, .DlHighlight .string .after {
+    font-style: italic;
+    color : #86B39E;
+}
+
+.DlHighlight .regexp { color: #b2c; }
+.DlHighlight .regexp .before, .DlHighlight .regexp .after { color: #509; font-family: Bitstream Vera Sans Mono Bold, monospace; }
+
+.DlHighlight .comment {
+    color : #6B817E;
+}
+.DlHighlight .comment .before, .DlHighlight .comment .after {
+    color : #6B817E;
+}
+
+.DlHighlight .hashkey {
+    color : #86B39E;
+}
+
+.DlHighlight .hasharrow {
+    color : #86B39E;
+    text-shadow: 0px 0px 6px #458F89;
+}
+
+.DlHighlight .paren {
+
+}
+
+.DlHighlight .operator {
+
+}
+
+.DlHighlight .error {
+
+}
+
+.DlHighlight .defun {
+
+}
+
+.DlHighlight .line-numbers {
+  float: left;
+  margin-left: -4.5em;
+  width: 3em;
+  text-align: right;
+  color: #999;
+  font: 0.9em tahoma,verdana,sans-serif;
+  padding-top: 0.05em;
+}
+.DlHighlight .line-numbers:after { content: "." }
+
+/* XML */
+
+.DlHighlight .xml-tag-close .before { color: #52a; }
+
+.DlHighlight .xml-entity { color: #b2a; }
+.DlHighlight .xml-entity .before, .DlHighlight .xml-entity .after { color: #607; }
+
+/* CSS */
+
+.DlHighlight .css-class { color: #000; font-family: Bitstream Vera Sans Mono Italics; }
+.DlHighlight .css-pseudo-class { color: #777; }
+.DlHighlight .css-id { font-family: Bitstream Vera Sans Mono Bold; }
+.DlHighlight .css-color-spec { color: #a51; }
+.DlHighlight .css-length { color: #a19; }
+.DlHighlight .css-length .after { font-family: Bitstream Vera Sans Mono Bold; }
+.DlHighlight .css-declaration-kw { font-family: Bitstream Vera Sans Mono Bold; }
+.DlHighlight .css-comma { color: red; }
