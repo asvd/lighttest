@@ -131,13 +131,6 @@ init = function() {
             setTimeout(lighttest._next, 0);
             break;
         case 'interrupting':
-            // pause requested
-            lighttest._platform.printLine();
-            lighttest._platform.printLine();
-            lighttest._platform.printBlue('// paused');
-            lighttest._platform.printLine();
-            lighttest._state = 'paused';
-
             if ( lighttest._pendingTests ) {
                 // restart requested
                 var tests = lighttest._pendingTests;
@@ -145,6 +138,13 @@ init = function() {
                 lighttest._pendingTests = null;
                 lighttest._pendingCallback = null;
                 lighttest.start(tests, callback);
+            } else {
+                // pause requested
+                lighttest._state = 'paused';
+                lighttest._platform.printLine();
+                lighttest._platform.printLine();
+                lighttest._platform.printBlue('// paused');
+                lighttest._platform.printLine();
             }
             break;
         }
