@@ -15,6 +15,12 @@ table.pad {
 }
 
 
+img {
+    margin-left : -20px;
+    padding-top : 10px;
+    padding-bottom : 10px;
+}
+
 td {
     vertical-align : top;
 }
