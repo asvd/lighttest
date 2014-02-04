@@ -1,4 +1,4 @@
-lighttest = require('./lighttest.js');
+lighttest = require('./lighttest-node.js');
 
 var lighttestTests = {
     'Mixed test':

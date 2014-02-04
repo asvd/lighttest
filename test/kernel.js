@@ -1,5 +1,5 @@
 /*********************************************************************
-  Helios Kernel - javascript module loader
+  Helios Kernel v0.9.6 - javascript module loader
 
   Licensed under MIT license, see http://github.com/asvd/helios-kernel
 
@@ -336,7 +336,7 @@ kernel._Module.prototype.initialize = function() {
 
 
 /**
- * @function uninitialize()  ('uninitializing' state) performs module
+ * @function uninitialize() ('uninitializing' state) performs module
  * uninitialization, then destroys the module
  * 
  * The module is not invalidated in case of uninitializer failure,
@@ -993,7 +993,7 @@ if ( typeof window != 'undefined' ) {
     // NODEJS
 
     /**
-     * Loads local module under NodeJS
+     * Loads a local module under NodeJS
      * 
      * @param {String} path of the local module to load
      * @param {Function} sCb success callback
@@ -1017,7 +1017,7 @@ if ( typeof window != 'undefined' ) {
 
 
     /**
-     * Downloads and executes remote module under NodeJS
+     * Downloads and executes a remote module under NodeJS
      * 
      * @param {String} path of the remote module to load
      * @param {Function} sCb success callback
@@ -1050,7 +1050,7 @@ if ( typeof window != 'undefined' ) {
                 res.on(
                     'readable',
                     function() {
-                        var chunk=res.read();
+                        var chunk = res.read();
                         content += chunk.toString();
                     }
                 );
