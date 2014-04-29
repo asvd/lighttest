@@ -164,7 +164,17 @@ init = function() {
             lighttest._currentFailed = false;
             var test = lighttest._tests[idx];
             lighttest._platform.print( test.label+' ' );
-            setTimeout( test.method, 0 );
+
+            var tryMethod = function() {
+                try {
+                    test.method();
+                } catch(e) {
+                    lighttest.check(false);
+                    lighttest.done();
+                }
+            };
+
+            setTimeout( tryMethod, 0 );
         }
     }
     

@@ -41,6 +41,16 @@ init = function() {
         },
 
         
+        'Test throwing an exception' : function() {
+            var throwsAnException = function() {
+                throw 'BAR';
+            }
+            
+            throwsAnException();
+            lighttest.done();
+        },
+
+
         'Check if a code runs without exceptions' : function() {
             var shouldRunWithoutExceptions = function() {
 //                throw 'BAR';
@@ -83,24 +93,11 @@ init = function() {
             if ( exception ) {
                 lighttest.check( true );
                 setTimeout( lighttest.done, 10 );
-                throw exception;
             } else {
                 lighttest.check( false );
                 lighttest.done();
             }
         },
-
-        'Test throwing expection':
-        function() {
-            setTimeout(
-                function() {
-                    lighttest.check(true);
-                    lighttest.done();
-                },
-                100
-            );
-        },
-        
 
         'Math.sqr() function test':
         function() {
