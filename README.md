@@ -21,11 +21,11 @@ required, simply include the library in the module head:
 
 
 ```js
-include('http://asvd.github.io/lighttest/lighttest-0.1.0.js');
+include('http://asvd.github.io/lighttest/lighttest-0.1.1.js');
 ```
 
 Optionally you may [download the
-distribution](https://github.com/asvd/lighttest/releases/download/v0.1.0/lighttest-0.1.0.tar.gz),
+distribution](https://github.com/asvd/lighttest/releases/download/v0.1.1/lighttest-0.1.1.tar.gz),
 unpack it, and include the library locally.
 
 - *For the plain Node.js* — uning npm:
@@ -41,7 +41,7 @@ var lighttest = require('lighttest');
 ```
 
 - *Anywhere else* — download the Lighttest
-[bundle](https://github.com/asvd/lighttest/releases/download/v0.1.0/lighttest-bundled-0.1.0.tar.gz),
+[bundle](https://github.com/asvd/lighttest/releases/download/v0.1.1/lighttest-bundled-0.1.1.tar.gz),
 unpack it and then load the `lighttest.js` in any suitable way: the
 bundle is a plain JavaScript file simply declaring the global
 `lighttest` object.
@@ -114,73 +114,14 @@ needed thus performing several checks for a single test case. The
 whole test case is considered as failed if at least one check has
 failed.
 
-The value provided to the `lighttest.check()` function is the only
-thing regarded by Lighttest in sence of recognizing a success or a
-failure. This approach makes condition specifying clear, and allows to
-see what exactly is performed and checked during the
-test. Particullary this means that exceptions are not treated as a
-failure. If a check against exception is needed, it should be
-performed explicitly:
-
-
-```js
-    ...
-
-    'Check if a code runs without exceptions':
-    function() {
-        var exception = null;
-        try {
-            something.shouldRunWithoutExceptions();
-        } catch (e) {
-            exception = e;
-        }
-
-        if (!exception) {
-            lighttest.check(true);
-            lighttest.done();
-        } else {
-            lighttest.check(false);
-
-            // issuing asynchroniously since throwing breaks the stack
-            setTimeout(lighttest.done, 10);
-            throw exception;
-        }
-    },
-
-
-    'Check if a code throws an exception':
-    function() {
-        var exception = null;
-        try {
-            something.shouldThrowAnException();
-        } catch (e) {
-            exception = e;
-        }
-
-        if (exception) {
-            lighttest.check(true);
-            setTimeout(lighttest.done, 10);
-            throw exception;
-        } else {
-            lighttest.check(false);
-            lighttest.done();
-        }
-    },
-
-
-    ...
-```
-
-
 After the `lighttest.done()` function is issued, Lighttest will
-proceed to the next test case. As shown in the code above, it could be
-issued after some time, which makes it possible to test some
-callback-based stuff:
+proceed to the next test case. This method could be issued after some
+time, which makes it possible to test some callback-based stuff:
 
 ```js
     ...
 
-    'Check if something asynchronious works fine':
+    'Check if something asynchronous works fine':
     function() {
         var successCb = function() {
             lighttest.check(true);
@@ -192,12 +133,55 @@ callback-based stuff:
             lighttest.done();
         }
 
-        doSomethingAsynchronious(successCb, failureCb);
+        doSomethingAsynchronous(
+            lighttest.protect(successCb),
+            lighttest.protect(failureCb)
+        );
     },
 
     
     ...
 ```
+
+If an unhandled exception happens during the run of the test,
+Lighttest will consider the running test as failed, and proceed to the
+next test immediately. In order to also have the asynchronous
+exceptions handled, the callbacks must be wrapped with the
+`lighttest.protect()` method (which also passes all the arguments), as
+shown in the example above.
+
+
+If, on the other hand, you need to make sure that the given code
+actually throws an exception (which should mean the passed test), this
+could be performed manually:
+
+
+```js
+    ...
+
+    'Check if a code throws an exception':
+    function() {
+        var exception = null;
+        try {
+            something.shouldThrowAnException();
+        } catch (e) {
+            exception = e;
+        }
+
+        lighttest.check(exception);
+        lighttest.done();
+    },
+    
+
+    ...
+```
+
+
+ An unhandled exception along with the call of the `lighttest.check()`
+function are the only two things regarded by Lighttest in sence of
+recognizing a success or a failure. Such approach makes the test
+failure conditions specifying clear, and allows to see what exactly is
+performed and checked during the test.
 
 After all tests are processed, Lighttest will display the overall
 number of the tested cases, and exit with an error code equalling the
@@ -263,7 +247,7 @@ The following example shows a set of tests implemented as a [Helios
 Kernel](http://asvd.github.io/helios-kernel/) module:
 
 ```js
-include('http://asvd.github.io/lighttest/lighttest-0.1.0.js');
+include('http://asvd.github.io/lighttest/lighttest-0.1.1.js');
 
 init = function() {
     lighttest.start({
@@ -284,7 +268,7 @@ init = function() {
                 lighttest.done();
             }
 
-            setTimeout( callback, 100 );
+            setTimeout( lighttest.protect(callback), 100 );
         },
 
 
