@@ -31,7 +31,7 @@ unpack it, and include the library locally.
 - *For the plain Node.js* — uning npm:
 
 ```sh
-$ npm install lighttest
+$ npm install lighttest0
 ```
 
 and then in your code:
