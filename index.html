@@ -28,7 +28,7 @@
 
 
       <p class="download">
-        <a href="https://github.com/asvd/lighttest/releases/download/v0.1.0/lighttest-0.1.0-bundled.tar.gz">lighttest-0.1.0-bundled.tar.gz</a>
+        <a href="https://github.com/asvd/lighttest/releases/download/v0.1.1/lighttest-0.1.1-bundled.tar.gz">lighttest-0.1.1-bundled.tar.gz</a>
         6&nbsp;kb 
         <br/>
         <a href="https://github.com/asvd/lighttest">https://github.com/asvd/lighttest</a>
@@ -57,12 +57,12 @@ API.
     the module head:
     </p>
 
-    <pre name="code" class="js">include('http://asvd.github.io/lighttest/lighttest-0.1.0.js');
+    <pre name="code" class="js">include('http://asvd.github.io/lighttest/lighttest-0.1.1.js');
     </pre>
 
     <p>
     Optionally you may 
-    <a href="https://github.com/asvd/lighttest/releases/download/v0.1.0/lighttest-0.1.0.tar.gz">download
+    <a href="https://github.com/asvd/lighttest/releases/download/v0.1.1/lighttest-0.1.1.tar.gz">download
     the distribution</a>, unpack it, and include the library locally.
     </p>
   </li>
@@ -83,7 +83,7 @@ API.
   <li>
     <p>
     Anywhere else &mdash; download the Lighttest
-    <a href="https://github.com/asvd/lighttest/releases/download/v0.1.0/lighttest-0.1.0-bundled.tar.gz">bundle</a>,
+    <a href="https://github.com/asvd/lighttest/releases/download/v0.1.1/lighttest-0.1.1-bundled.tar.gz">bundle</a>,
     unpack it and then load
     the <span class=inline_code>lighttest.js</span> in any suitable way:
     the bundle is a plain JavaScript file simply declaring the global
@@ -177,76 +177,16 @@ check has failed.
 </p>
 
 <p>
-The value provided to
-the <span class=inline_code>lighttest.check()</span> function is the
-only thing regarded by Lighttest in sence of recognizing a success or
-a failure. This approach makes condition specifying clear, and allows
-to see what exactly is performed and checked during the
-test. Particullary this means that exceptions are not treated as a
-failure. If a check against exception is needed, it should be
-performed explicitly:
-</p>
-
-
-<pre name="code" class="js">
-    ...
-
-    'Check if a code runs without exceptions':
-    function() {
-        var exception = null;
-        try {
-            something.shouldRunWithoutExceptions();
-        } catch (e) {
-            exception = e;
-        }
-
-        if (!exception) {
-            lighttest.check(true);
-            lighttest.done();
-        } else {
-            lighttest.check(false);
-
-            // issuing asynchroniously since throwing breaks the stack
-            setTimeout(lighttest.done, 10);
-            throw exception;
-        }
-    },
-
-
-    'Check if a code throws an exception':
-    function() {
-        var exception = null;
-        try {
-            something.shouldThrowAnException();
-        } catch (e) {
-            exception = e;
-        }
-
-        if (exception) {
-            lighttest.check(true);
-            setTimeout(lighttest.done, 10);
-            throw exception;
-        } else {
-            lighttest.check(false);
-            lighttest.done();
-        }
-    },
-
-
-    ...
-</pre>
-
-<p>
 After the <span class=inline_code>lighttest.done()</span> function is
-issued, Lighttest will proceed to the next test case. As shown in the
-code above, it could be issued after some time, which makes it
-possible to test some callback-based stuff:
+issued, Lighttest will proceed to the next test case. This method
+could be issued after some time, which makes it possible to test some
+callback-based stuff:
 </p>
 
 <pre name="code" class="js">
     ...
 
-    'Check if something asynchronious works fine':
+    'Check if something asynchronous works fine':
     function() {
         var successCb = function() {
             lighttest.check(true);
@@ -258,12 +198,61 @@ possible to test some callback-based stuff:
             lighttest.done();
         }
 
-        doSomethingAsynchronious(successCb, failureCb);
+        doSomethingAsynchronous(
+            lighttest.protect(successCb),
+            lighttest.protect(failureCb)
+        );
     },
 
     
     ...
 </pre>
+
+
+<p>
+If an unhandled exception happens during the run of the test,
+Lighttest will consider the running test as failed, and proceed to the
+next test immediately. In order to also have the asynchronous
+exceptions handled, the callbacks must be wrapped with the
+<span class=inline_code>lighttest.protect()</span> method, as shown in
+the example above.
+</p>
+
+<p>
+If, on the other hand, you need to make sure that the given code
+actually throws an exception (which should mean the passed test), this
+could be performed manually:
+</p>
+
+<pre name="code" class="js">
+    ...
+
+    'Check if a code throws an exception':
+    function() {
+        var exception = null;
+        try {
+            something.shouldThrowAnException();
+        } catch (e) {
+            exception = e;
+        }
+
+        lighttest.check(exception);
+        lighttest.done();
+    },
+    
+    
+    ...
+</pre>
+
+<p>
+An unhandled exception along with the call of
+the <span class=inline_code>lighttest.check()</span> function are the
+only two things regarded by Lighttest in sence of recognizing a
+success or a failure. Such approach makes the test failure conditions
+specifying clear, and allows to see what exactly is performed and
+checked during the test.
+</p>
+
 
 <p>
 After all tests are processed, Lighttest will display the overall
@@ -355,7 +344,7 @@ module:
 </p>
 
 <pre name="code" class="js">
-include('http://asvd.github.io/lighttest/lighttest-0.1.0.js');
+include('http://asvd.github.io/lighttest/lighttest-0.1.1.js');
 
 init = function() {
     lighttest.start({
@@ -376,7 +365,7 @@ init = function() {
                 lighttest.done();
             }
 
-            setTimeout(callback, 100);
+            setTimeout( lighttest.protect(callback), 100 );
         },
 
 
