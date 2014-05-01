@@ -16,7 +16,7 @@ init = function() {
         function() {
             var a = 1;
 
-            switch( a ) {
+            switch(a) {
             case 1 :
                 a = 2;
                 break;
@@ -24,6 +24,7 @@ init = function() {
                 lighttest.check(false);
                 break;
             }
+
             lighttest.check(true);
             lighttest.done();
         },
@@ -31,13 +32,12 @@ init = function() {
 
         'Async test':
         function() {
-            setTimeout(
-                function() {
-                    lighttest.check(true);
-                    lighttest.done();
-                },
-                100
-            );
+            var cb = function() {
+                lighttest.check(true);
+                lighttest.done();
+            }
+            
+            setTimeout( lighttest.protect(cb), 100 );
         },
 
         
@@ -51,29 +51,24 @@ init = function() {
         },
 
 
+
+        'Test throwing an exception asynchroniously' : function() {
+            var throwsAnException = function() {
+                throw 'BAR';
+            }
+
+            setTimeout( lighttest.protect(throwsAnException), 1000 );
+        },
+
+
+
         'Check if a code runs without exceptions' : function() {
             var shouldRunWithoutExceptions = function() {
 //                throw 'BAR';
             }
 
-            var exception = null;
-            try {
-                shouldRunWithoutExceptions();
-            } catch ( e ) {
-                exception = e;
-            }
-
-            if ( !exception ) {
-                lighttest.check( true );
-                lighttest.done();
-            } else {
-                lighttest.check( false );
-
-                // issuing asynchroniously since throwing breaks the stack
-                setTimeout( lighttest.done, 10 );
-                throw exception;
-            }
-
+            shouldRunWithoutExceptions();
+            lighttest.done();
         },
 
 
@@ -81,7 +76,6 @@ init = function() {
             var shouldThrowAnException = function() {
                 throw 'FOO';
             }
-            
 
             var exception = null;
             try {
@@ -155,13 +149,6 @@ init = function() {
             lighttest.check( a == b );
             lighttest.check( a !== b );
             lighttest.done();
-//            lighttest.pause();
-            setTimeout(
-                function() {
-//                    lighttest.pause();
-                },
-                2000
-            );
         }
     };
 

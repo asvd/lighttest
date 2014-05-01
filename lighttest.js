@@ -16,6 +16,28 @@ init = function() {
     lighttest._state = 'nothing';
     lighttest._pendingTests = null;
     lighttest._pendingCallback = null;
+    
+    
+    
+    /**
+     * Wraps the given code so that in case of exception it will fail
+     * the test (instead of breaking the stack)
+     * 
+     * @param {Function} method to wrap
+     * 
+     * @returns {Function} wrapped method
+     */
+    lighttest.protect = function( method ) {
+        return function() {
+            try {
+                method.apply(this, arguments);
+            } catch(e) {
+                lighttest.check(false);
+                lighttest.done();
+            }
+        }
+    }
+
 
 
     /**
@@ -40,7 +62,7 @@ init = function() {
                 if ( tests.hasOwnProperty(label) ) {
                     lighttest._tests.push({
                         label : label,
-                        method : tests[label]
+                        method : lighttest.protect( tests[label] )
                     });
                 }
             }
@@ -164,17 +186,7 @@ init = function() {
             lighttest._currentFailed = false;
             var test = lighttest._tests[idx];
             lighttest._platform.print( test.label+' ' );
-
-            var tryMethod = function() {
-                try {
-                    test.method();
-                } catch(e) {
-                    lighttest.check(false);
-                    lighttest.done();
-                }
-            };
-
-            setTimeout( tryMethod, 0 );
+            setTimeout( test.method, 0 );
         }
     }
     
