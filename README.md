@@ -327,6 +327,3 @@ Test with checks against strict equality  PASS PASS
 1 of 6 tests FAILED 
 ```
 
-
-[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/asvd/lighttest/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
-
