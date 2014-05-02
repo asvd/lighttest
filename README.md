@@ -41,7 +41,7 @@ var lighttest = require('lighttest');
 ```
 
 - *Anywhere else* — download the Lighttest
-[bundle](https://github.com/asvd/lighttest/releases/download/v0.1.2/lighttest-bundled-0.1.2.tar.gz),
+[bundle](https://github.com/asvd/lighttest/releases/download/v0.1.2/lighttest-0.1.2-bundled.tar.gz),
 unpack it and then load the `lighttest.js` in any suitable way: the
 bundle is a plain JavaScript file simply declaring the global
 `lighttest` object.
