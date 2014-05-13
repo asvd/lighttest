@@ -155,6 +155,7 @@ init = function() {
         case 'interrupting':
             if ( lighttest._pendingTests ) {
                 // restart requested
+                lighttest._state = 'nothing';
                 var tests = lighttest._pendingTests;
                 var callback = lighttest._pendingCallback;
                 lighttest._pendingTests = null;
