@@ -21,11 +21,11 @@ required, simply include the library in the module head:
 
 
 ```js
-include('http://asvd.github.io/lighttest/lighttest-0.1.2.js');
+include('http://asvd.github.io/lighttest/lighttest-0.1.3.js');
 ```
 
 Optionally you may [download the
-distribution](https://github.com/asvd/lighttest/releases/download/v0.1.2/lighttest-0.1.2.tar.gz),
+distribution](https://github.com/asvd/lighttest/releases/download/v0.1.3/lighttest-0.1.3.tar.gz),
 unpack it, and include the library locally.
 
 - *For the plain Node.js* — uning npm:
@@ -41,7 +41,7 @@ var lighttest = require('lighttest');
 ```
 
 - *Anywhere else* — download the Lighttest
-[bundle](https://github.com/asvd/lighttest/releases/download/v0.1.2/lighttest-0.1.2-bundled.tar.gz),
+[bundle](https://github.com/asvd/lighttest/releases/download/v0.1.3/lighttest-0.1.3-bundled.tar.gz),
 unpack it and then load the `lighttest.js` in any suitable way: the
 bundle is a plain JavaScript file simply declaring the global
 `lighttest` object.
@@ -247,7 +247,7 @@ The following example shows a set of tests implemented as a [Helios
 Kernel](http://asvd.github.io/helios-kernel/) module:
 
 ```js
-include('http://asvd.github.io/lighttest/lighttest-0.1.2.js');
+include('http://asvd.github.io/lighttest/lighttest-0.1.3.js');
 
 init = function() {
     lighttest.start({
