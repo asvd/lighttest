@@ -44,7 +44,8 @@ var lighttest = require('lighttest');
 [bundle](https://github.com/asvd/lighttest/releases/download/v0.1.3/lighttest-0.1.3-bundled.tar.gz),
 unpack it and then load the `lighttest.js` in any suitable way: the
 bundle is a plain JavaScript file simply declaring the global
-`lighttest` object.
+`lighttest` object. In this case make sure to only call the
+`lighttest.start()` after the page is loaded.
 
 
 ### Usage
