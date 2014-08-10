@@ -114,9 +114,9 @@ init = function() {
      */
     lighttest.check = function( value ) {
         if ( value ) {
-            lighttest._platform.printGreen(' PASS');
+            lighttest._platform.printGreen('PASS ');
         } else {
-            lighttest._platform.printRed(' FAIL');
+            lighttest._platform.printRed('FAIL ');
             lighttest._currentFailed = true;
         }
         
@@ -187,7 +187,7 @@ init = function() {
             lighttest._platform.printLine();
             lighttest._currentFailed = false;
             var test = lighttest._tests[idx];
-            lighttest._platform.printWhite( test.label+' ' );
+            lighttest._platform.printWhite( test.label+'  ' );
             setTimeout( test.method, 0 );
         }
     }
