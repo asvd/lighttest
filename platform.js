@@ -95,6 +95,8 @@ init = function() {
             );
         }
 
+        lighttest._platform.printWhite = lighttest._platform.printPlain;
+
         lighttest._platform.printLine = function() {
             lighttest._platform.print(' <br/>');
             setTimeout(
@@ -122,6 +124,7 @@ init = function() {
         var red   = '\033[31m';
         var green = '\033[32m';
         var blue  = '\033[36m';
+        var bold = '\x1b[1m';
         var reset = '\033[0m';
 
         lighttest._platform.print = function(val) {
@@ -129,16 +132,20 @@ init = function() {
         }
         
         lighttest._platform.printRed = function(text) {
-            lighttest._platform.print( red+text+reset );
+            lighttest._platform.print( red+bold+text+reset );
         }
 
         lighttest._platform.printGreen = function(text) {
-            lighttest._platform.print( green+text+reset );
+            lighttest._platform.print( green+bold+text+reset );
         }
 
         lighttest._platform.printBlue = function(text) {
             lighttest._platform.print( blue+text+reset );
         }
+
+        lighttest._platform.printWhite = function (text) {
+            lighttest._platform.print( bold+text+reset );
+        };
 
         lighttest._platform.printLine = function() {
             console.log();

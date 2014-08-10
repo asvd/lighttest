@@ -187,7 +187,7 @@ init = function() {
             lighttest._platform.printLine();
             lighttest._currentFailed = false;
             var test = lighttest._tests[idx];
-            lighttest._platform.print( test.label+' ' );
+            lighttest._platform.printWhite( test.label+' ' );
             setTimeout( test.method, 0 );
         }
     }
