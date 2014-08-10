@@ -34,6 +34,7 @@ init = function() {
             } catch(e) {
                 lighttest.check(false);
                 lighttest.done();
+                throw e;
             }
         }
     }
