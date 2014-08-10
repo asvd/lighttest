@@ -98,7 +98,7 @@ init = function() {
         lighttest._platform.printWhite = lighttest._platform.printPlain;
 
         lighttest._platform.printLine = function() {
-            lighttest._platform.print(' <br/>');
+            lighttest._platform.print('<br/>');
             setTimeout(
                 function() {
                     div1.scrollTop = div1.scrollHeight;
