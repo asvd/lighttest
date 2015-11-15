@@ -66,6 +66,20 @@ init = function() {
 
         div1.appendChild(div2);
 
+        if (typeof console.group == 'undefined') {
+            console.group = function(text) {
+                console.log('[ GROUP START ]: ' + text);
+            }
+        }
+
+        
+        if (typeof console.groupEnd == 'undefined') {
+            console.groupEnd = function() {
+                console.log('[  GROUP END  ]');
+                console.log(' ');
+            }
+        }
+
         lighttest._platform.print = function( text ) {
             div2.innerHTML += text.replace(/\ /g, '&nbsp;');
         }

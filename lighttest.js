@@ -1,22 +1,19 @@
 /**
  * @fileoverview Lighttest - a clear testing environment
+ * @version 0.1.4
  * 
- * @version 0.1.3
- * 
+ * @license MIT, see http://github.com/asvd/lighttest
  * Copyright (c) 2014 asvd <heliosframework@gmail.com> 
- * 
- * Lighttest library is licensed under the MIT license,
- * see http://github.com/asvd/lighttest
  */
 
 include('base.js');
 include('platform.js');
 
 init = function() {
+
     lighttest._state = 'nothing';
     lighttest._pendingTests = null;
     lighttest._pendingCallback = null;
-    
     
     
     /**
@@ -27,7 +24,7 @@ init = function() {
      * 
      * @returns {Function} wrapped method
      */
-    lighttest.protect = function( method ) {
+    lighttest.protect = function(method) {
         return function() {
             try {
                 method.apply(this, arguments);
@@ -40,15 +37,14 @@ init = function() {
     }
 
 
-
     /**
      * Runs the given set of tests
      * 
      * @param {Array} tests list of tests to execute
      * @param {Function} callback to run after the tests
      */
-    lighttest.start = function( tests, callback ) {
-        switch( lighttest._state ) {
+    lighttest.start = function(tests, callback) {
+        switch(lighttest._state) {
         case 'nothing':
         case 'paused':
             // (re)start
@@ -59,16 +55,17 @@ init = function() {
             lighttest._state = 'running';
             lighttest._callback = callback || null;
             lighttest._tests = [];
-            for ( var label in tests ) {
-                if ( tests.hasOwnProperty(label) ) {
+            for (var label in tests) {
+                if (tests.hasOwnProperty(label)) {
                     lighttest._tests.push({
                         label : label,
-                        method : lighttest.protect( tests[label] )
+                        method : lighttest.protect(tests[label])
                     });
                 }
             }
             lighttest._next();
             break;
+
         case 'running':
         case 'interrupting':
             // switching to restart even in case of requested pause
@@ -81,21 +78,22 @@ init = function() {
     }
 
     
-
     /**
      * (Un)pauses the tests execution (waiting until the currently
      * running test is completed)
      */
     lighttest.pause = function() {
-        switch( lighttest._state ) {
+        switch(lighttest._state) {
         case 'nothing':
         case 'interrupting':
             break;
+
         case 'running': // pausing
             lighttest._state = 'interrupting';
             lighttest._pendingTests = null;
             lighttest._pendingCallback = null;
             break;
+
         case 'paused':  // unpausing
             lighttest._state = 'running';
             lighttest._next();
@@ -105,15 +103,14 @@ init = function() {
     }
     
     
-    
     /**
      * Checks the given value against being true, logs the result for
      * the currently running test
      * 
      * @param {Boolean} value to check
      */
-    lighttest.check = function( value ) {
-        if ( value ) {
+    lighttest.check = function(value) {
+        if (value) {
             lighttest._platform.printGreen('PASS ');
         } else {
             lighttest._platform.printRed('FAIL ');
@@ -123,38 +120,38 @@ init = function() {
     }
 
 
-
     /**
      * Called by the test body when finished, launches the next test
      */
     lighttest.done = function() {
         // let pause() called after done() time to perform
-        setTimeout( lighttest._done, 10 );
+        setTimeout(lighttest._done, 10);
     }
 
-    
     
     /**
      * Launches the next test
      */
     lighttest._done = function() {
-        if ( lighttest._currentFailed ) {
+        if (lighttest._currentFailed) {
             lighttest._testsFailed++;
         }
 
         lighttest._currentTestIdx++;
         
-        switch( lighttest._state ) {
+        switch(lighttest._state) {
         case 'paused':
         case 'nothing':
             // tests not running
             break;
+
         case 'running':
             // normal case, prevent stack growth
             setTimeout(lighttest._next, 0);
             break;
+
         case 'interrupting':
-            if ( lighttest._pendingTests ) {
+            if (lighttest._pendingTests) {
                 // restart requested
                 lighttest._state = 'nothing';
                 var tests = lighttest._pendingTests;
@@ -175,23 +172,21 @@ init = function() {
     }
 
 
-
     /**
      * Proceeds to the next test
      */
     lighttest._next = function() {
         var idx = lighttest._currentTestIdx;
-        if ( idx == lighttest._tests.length ) {
+        if (idx == lighttest._tests.length) {
             lighttest._finalize();
         } else {
             lighttest._platform.printLine();
             lighttest._currentFailed = false;
             var test = lighttest._tests[idx];
-            lighttest._platform.printWhite( test.label+'  ' );
-            setTimeout( test.method, 0 );
+            lighttest._platform.printWhite(test.label+'  ');
+            setTimeout(test.method, 0);
         }
     }
-    
 
 
     /**
@@ -203,13 +198,13 @@ init = function() {
 
         lighttest._platform.printLine();
         lighttest._platform.printLine();
-        if ( failed ) {
+        if (failed) {
             lighttest._platform.print(
                 failed + ' of ' + total + ' tests '
             );
             lighttest._platform.printRed('FAILED');
         } else {
-            lighttest._platform.print( total + ' tests ' );
+            lighttest._platform.print(total + ' tests ');
             lighttest._platform.printGreen('PASSED');
         }
 
@@ -218,7 +213,7 @@ init = function() {
 
         lighttest._state = 'nothing';
 
-        if ( lighttest._callback ) {
+        if (lighttest._callback) {
             lighttest._callback(failed);
         }
 
